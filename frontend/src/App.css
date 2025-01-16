@@ -1,0 +1,24 @@
+@import url('https://fonts.googleapis.com/css2?family=Unica+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:ital,wght@0,400..900;1,400..900&family=Unica+One&display=swap');
+
+:root{
+    --navbar-bg-color: #1A4B3C;
+    --button-color: #1B4E3D;
+
+}
+.navbar{
+    background-color: var(--navbar-bg-color);
+}
+.navbar a{
+    color: aliceblue;
+}
+h1{
+    font-family:'Unica One'
+}
+p , a{
+    font-family:'Schibsted Grotesk';
+}
+.custom{
+    background-color: var(--button-color) !important;
+
+}

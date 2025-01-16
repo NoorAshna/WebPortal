@@ -7,7 +7,6 @@ const ExtractJWT = passportJWT.ExtractJwt;
 
 const User = require("../db/User");
 const authKeys = require("./authKeys");
-
 const filterJson = (obj, unwantedKeys) => {
   const filteredObj = {};
   Object.keys(obj).forEach((key) => {
