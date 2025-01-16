@@ -1,6 +1,6 @@
 import { createContext, useState } from "react";
-import { BrowserRouter, Switch, Route } from "react-router-dom";
-import { Grid, makeStyles } from "@material-ui/core";
+import { BrowserRouter,  Route, Routes } from "react-router-dom";
+import { Container, Row, Col } from "react-bootstrap";
 import Welcome, { ErrorPage } from "./component/Welcome";
 import AppNavbar from "./component/AppNavbar";
 import Login from "./component/Login";
@@ -12,87 +12,62 @@ import Profile from "./component/Profile";
 import CreateJobs from "./component/recruiter/CreateJobs";
 import MyJobs from "./component/recruiter/MyJobs";
 import JobApplications from "./component/recruiter/JobApplications";
-// import AcceptedApplicants from "./component/recruiter/AcceptedApplicants";
 import RecruiterProfile from "./component/recruiter/Profile";
 import MessagePopup from "./lib/MessagePopup";
 import isAuth, { userType } from "./lib/isAuth";
 import Footer from "./component/Footer";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
-const useStyles = makeStyles((theme) => ({
-  body: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    minHeight: "98vh",
-    boxSizing: "border-box",
-    width: "100%",
-  },
-}));
+const bodyStyle = {
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  minHeight: "98vh",
+  boxSizing: "border-box",
+  width: "100%",
+};
 
 export const SetPopupContext = createContext();
 
 function App() {
-  const classes = useStyles();
   const [popup, setPopup] = useState({
     open: false,
     severity: "",
     message: "",
   });
+
   return (
     <BrowserRouter>
       <SetPopupContext.Provider value={setPopup}>
-        <Grid container direction="column">
-          <Grid item xs>
-            <AppNavbar />
-          </Grid>
-          <Grid item className={classes.body}>
-            <Switch>
-              <Route exact path="/">
-                <Welcome />
-              </Route>
-              <Route exact path="/login">
-                <Login />
-              </Route>
-              <Route exact path="/signup">
-                <Signup />
-              </Route>
-              <Route exact path="/logout">
-                <Logout />
-              </Route>
-              <Route exact path="/home">
-                <Home />
-              </Route>
-              <Route exact path="/applications">
-                <Applications />
-              </Route>
-              <Route exact path="/profile">
-                {userType() === "recruiter" ? (
-                  <RecruiterProfile />
-                ) : (
-                  <Profile />
-                )}
-              </Route>
-              <Route exact path="/addjob">
-                <CreateJobs />
-              </Route>
-              <Route exact path="/myjobs">
-                <MyJobs />
-              </Route>
-              <Route exact path="/job/applications/:jobId">
-                <JobApplications />
-              </Route>
-              {/* <Route exact path="/employees">
-                <AcceptedApplicants />
-              </Route> */}
-              <Route>
-                <ErrorPage />
-              </Route>
-            </Switch>
-          </Grid>
-          <Grid item xs>
-            <Footer />
-          </Grid>
-        </Grid>
+        <Container fluid>
+          <Row>
+            <Col>
+              <AppNavbar />
+            </Col>
+          </Row>
+          <Row>
+            <Col style={bodyStyle}>
+              <Routes>
+                <Route exact path="/" element={<Welcome />} />
+                <Route exact path="/login" element={<Login />} />
+                <Route exact path="/signup" element={<Signup />} />
+                <Route exact path="/logout" element={<Logout />} />
+                <Route exact path="/home" element={<Home />} />
+                <Route exact path="/applications" element={<Applications />} />
+                <Route exact path="/profile" element={userType() === "recruiter" ? <RecruiterProfile />: <Profile />} />
+                <Route exact path="/addjob" element={<CreateJobs />} />
+                <Route exact path="/myjobs" element={<MyJobs />} />
+                <Route exact path="/job/applications/:jobId" element={<JobApplications />} />
+                <Route path="*" element={<ErrorPage />} />
+              </Routes>
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              <Footer />
+            </Col>
+          </Row>
+        </Container>
         <MessagePopup
           open={popup.open}
           setOpen={(status) =>
